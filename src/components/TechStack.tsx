@@ -7,11 +7,9 @@ import {
   SiTypescript,
   SiPython,
   SiC,
-  SiPhp,
   SiReact,
   SiNextdotjs,
   SiTailwindcss,
-  SiBootstrap,
   SiHtml5,
   SiCss,
   SiNodedotjs,
@@ -40,13 +38,11 @@ const TECH_DATA: TechItem[] = [
   { id: "ts", name: "TypeScript", category: "LANGUAGES", color: "#3178C6", icon: <SiTypescript /> },
   { id: "py", name: "Python", category: "LANGUAGES", color: "#3776AB", icon: <SiPython /> },
   { id: "c", name: "C", category: "LANGUAGES", color: "#A8B9CC", icon: <SiC /> },
-  { id: "php", name: "PHP", category: "LANGUAGES", color: "#777BB4", icon: <SiPhp /> },
 
   // Frontend
   { id: "react", name: "React.js", category: "FRONTEND", color: "#61DAFB", icon: <SiReact /> },
   { id: "next", name: "Next.js", category: "FRONTEND", color: "#FFFFFF", icon: <SiNextdotjs /> },
   { id: "tailwind", name: "Tailwind CSS", category: "FRONTEND", color: "#06B6D4", icon: <SiTailwindcss /> },
-  { id: "bootstrap", name: "Bootstrap", category: "FRONTEND", color: "#7952B3", icon: <SiBootstrap /> },
   { id: "html", name: "HTML5", category: "FRONTEND", color: "#E34F26", icon: <SiHtml5 /> },
   { id: "css", name: "CSS3", category: "FRONTEND", color: "#1572B6", icon: <SiCss /> },
 

@@ -140,11 +140,9 @@ const WhatIDo = () => {
                 <div className="what-tags">HTML</div>
                 <div className="what-tags">CSS</div>
                 <div className="what-tags">Tailwind CSS</div>
-                <div className="what-tags">Bootstrap</div>
                 <div className="what-tags">Git</div>
                 <div className="what-tags">GitHub</div>
                 <div className="what-tags">Docker</div>
-                <div className="what-tags">PHP</div>
                 <div className="what-tags">Python</div>
               </div>
               <div className="what-arrow"></div>
