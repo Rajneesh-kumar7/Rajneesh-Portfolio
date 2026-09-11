@@ -14,6 +14,8 @@
   overflow: hidden;
   position: relative;
   width: 100%;
+  background-color: var(--backgroundColor, #0b080c);
+  z-index: 10;
 }
 .work-container {
   margin: auto;
@@ -47,7 +49,7 @@
 .work-flex::before,
 .work-flex::after {
   content: "";
-  width: calc(50000vw);
+  width: 100vw;
   height: 1px;
   background-color: #363636;
   position: absolute;

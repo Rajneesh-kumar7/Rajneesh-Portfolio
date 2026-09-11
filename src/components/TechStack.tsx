@@ -103,12 +103,26 @@ export default function TechStack() {
 
   // Node DOM elements ref
   const nodeRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const isSectionVisible = useRef(false);
 
   useEffect(() => {
+    const el = document.getElementById("techstack");
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isSectionVisible.current = entry.isIntersecting;
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(el);
+
     const timer = setTimeout(() => {
       ScrollTrigger.refresh();
     }, 150);
-    return () => clearTimeout(timer);
+    return () => {
+      observer.disconnect();
+      clearTimeout(timer);
+    };
   }, []);
 
   // Background Canvas for Cyber Rings & Particles
@@ -128,8 +142,8 @@ export default function TechStack() {
     };
     window.addEventListener("resize", onResize);
 
-    // Particles inside the sphere
-    const particleCount = 45;
+    // Particles inside the sphere (optimized count)
+    const particleCount = 22;
     const particles = Array.from({ length: particleCount }).map(() => ({
       x: (Math.random() - 0.5) * 2,
       y: (Math.random() - 0.5) * 2,
@@ -141,6 +155,10 @@ export default function TechStack() {
     let ringAngle = 0;
 
     const renderCanvas = () => {
+      if (!isSectionVisible.current) {
+        requestAnimationFrame(renderCanvas);
+        return;
+      }
       ctx.clearRect(0, 0, width, height);
 
       const cx = width / 2;
@@ -223,6 +241,10 @@ export default function TechStack() {
 
   // 3D Tag Projection & Physics Animation Loop
   const updateNodes = useCallback(() => {
+    if (!isSectionVisible.current) {
+      animFrameId.current = requestAnimationFrame(updateNodes);
+      return;
+    }
     const stage = containerRef.current;
     if (!stage) return;
 

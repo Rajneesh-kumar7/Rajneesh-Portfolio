@@ -1,4 +1,4 @@
-﻿.techstack-wrapper {
+.techstack-wrapper {
   position: relative;
   width: 100%;
   min-height: 100vh;
@@ -11,7 +11,10 @@
   justify-content: center;
   overflow: hidden;
   box-sizing: border-box;
-  background: radial-gradient(circle at 50% 50%, rgba(194, 164, 255, 0.06) 0%, rgba(11, 8, 12, 0.98) 75%);
+  background-color: var(--backgroundColor, #0b080c);
+  background-image: radial-gradient(circle at 50% 50%, rgba(194, 164, 255, 0.06) 0%, rgba(11, 8, 12, 0.98) 75%);
+  z-index: 20;
+  clear: both;
 }
 
 .techstack-header {

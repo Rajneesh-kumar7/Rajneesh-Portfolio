@@ -32,7 +32,7 @@ const Scene = () => {
         antialias: true,
       });
       renderer.setSize(container.width, container.height);
-      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.25));
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
       renderer.toneMappingExposure = 1;
       canvasDiv.current.appendChild(renderer.domElement);
@@ -63,12 +63,21 @@ const Scene = () => {
           scene.add(character);
           headBone = character.getObjectByName("spine006") || null;
           screenLight = character.getObjectByName("screenlight") || null;
+          let introStarted = false;
+          const triggerIntro = () => {
+            if (introStarted) return;
+            introStarted = true;
+            light.turnOnLights();
+            animations.startIntro();
+          };
+
           progress.loaded().then(() => {
-            setTimeout(() => {
-              light.turnOnLights();
-              animations.startIntro();
-            }, 2500);
+            setTimeout(triggerIntro, 2500);
           });
+
+          // Fallback in case progress.loaded is slow or already resolved
+          setTimeout(triggerIntro, 4000);
+
           window.addEventListener("resize", () =>
             handleResize(renderer, camera, canvasDiv, character)
           );
@@ -98,16 +107,17 @@ const Scene = () => {
         });
       };
 
-      document.addEventListener("mousemove", (event) => {
-        onMouseMove(event);
-      });
       const landingDiv = document.getElementById("landingDiv");
       if (landingDiv) {
         landingDiv.addEventListener("touchstart", onTouchStart);
         landingDiv.addEventListener("touchend", onTouchEnd);
       }
+      document.addEventListener("mousemove", onMouseMove);
+
+      let animId = 0;
       const animate = () => {
-        requestAnimationFrame(animate);
+        animId = requestAnimationFrame(animate);
+
         if (headBone) {
           handleHeadRotation(
             headBone,
@@ -119,14 +129,16 @@ const Scene = () => {
           );
           light.setPointLight(screenLight);
         }
-        const delta = clock.getDelta();
+        const delta = Math.min(clock.getDelta(), 0.1);
         if (mixer) {
           mixer.update(delta);
         }
         renderer.render(scene, camera);
       };
       animate();
+
       return () => {
+        cancelAnimationFrame(animId);
         clearTimeout(debounce);
         scene.clear();
         renderer.dispose();
@@ -136,8 +148,8 @@ const Scene = () => {
         if (canvasDiv.current) {
           canvasDiv.current.removeChild(renderer.domElement);
         }
+        document.removeEventListener("mousemove", onMouseMove);
         if (landingDiv) {
-          document.removeEventListener("mousemove", onMouseMove);
           landingDiv.removeEventListener("touchstart", onTouchStart);
           landingDiv.removeEventListener("touchend", onTouchEnd);
         }
