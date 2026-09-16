@@ -203,3 +203,21 @@
     height: auto;
   }
 }
+
+.work-project-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--accentColor, #c2a4ff);
+  text-decoration: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  width: fit-content;
+}
+
+.work-project-link:hover {
+  opacity: 0.8;
+  transform: translateX(4px);
+}

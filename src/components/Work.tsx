@@ -3,6 +3,7 @@ import WorkImage from "./WorkImage";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { MdArrowOutward } from "react-icons/md";
 
 gsap.registerPlugin(useGSAP);
 
@@ -58,27 +59,23 @@ const Work = () => {
     {
       title: "Fleet Flow",
       category: "Fleet Management Platform",
-      tools: "React.js, Node.js, Express.js, MongoDB, JWT, RESTful APIs",
+      tools: "React.js, Node.js, Express.js, MongoDB, JWT Auth, REST APIs",
+      image: "/images/node.webp",
+      link: "https://github.com/Rajneesh-kumar7",
     },
     {
       title: "DevConnect",
       category: "Developer Networking Platform",
       tools: "React.js, Node.js, Express.js, MongoDB, Reusable Components",
+      image: "/images/react.webp",
+      link: "https://github.com/Rajneesh-kumar7",
     },
     {
       title: "MediGo",
       category: "Healthcare Web Application",
       tools: "Next.js, React.js, TypeScript, Tailwind CSS",
-    },
-    {
-      title: "3D Spatial Studio",
-      category: "Creative WebGL & Generative Art",
-      tools: "Three.js, React Three Fiber, GLSL Shaders, GSAP",
-    },
-    {
-      title: "CloudPulse Monitor",
-      category: "Distributed Serverless Observability",
-      tools: "Node.js, Express, Redis, Docker, PostgreSQL",
+      image: "/images/next.webp",
+      link: "https://github.com/Rajneesh-kumar7/medigo",
     },
   ];
 
@@ -102,8 +99,16 @@ const Work = () => {
                 </div>
                 <h4>Tools and features</h4>
                 <p>{proj.tools}</p>
+                <a
+                  href={proj.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="work-project-link"
+                >
+                  View on GitHub <MdArrowOutward />
+                </a>
               </div>
-              <WorkImage image="/images/placeholder.webp" alt={proj.title} />
+              <WorkImage image={proj.image} alt={proj.title} link={proj.link} />
             </div>
           ))}
         </div>

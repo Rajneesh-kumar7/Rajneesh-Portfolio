@@ -16,7 +16,7 @@ const Career = () => {
             <div className="career-info-in">
               <div className="career-role">
                 <h4>B.Tech, Computer Science & Engineering</h4>
-                <h5>Lovely Professional University | CGPA: 7.04</h5>
+                <h5>Lovely Professional University</h5>
               </div>
               <h3>2024</h3>
             </div>
