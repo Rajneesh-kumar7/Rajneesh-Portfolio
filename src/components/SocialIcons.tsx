@@ -5,10 +5,13 @@ import {
 } from "react-icons/fa6";
 import "./styles/SocialIcons.css";
 import { TbNotes } from "react-icons/tb";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import HoverLinks from "./HoverLinks";
+import ResumeModal from "./ResumeModal";
 
 const SocialIcons = () => {
+  const [isResumeOpen, setIsResumeOpen] = useState(false);
+
   useEffect(() => {
     const social = document.getElementById("social") as HTMLElement;
 
@@ -74,12 +77,18 @@ const SocialIcons = () => {
           </a>
         </span>
       </div>
-      <a className="resume-button" href="/resume.pdf" target="_blank" rel="noopener noreferrer">
+      <button
+        className="resume-button"
+        onClick={() => setIsResumeOpen(true)}
+        aria-label="View Resume"
+        style={{ border: "none", background: "none", cursor: "pointer" }}
+      >
         <HoverLinks text="RESUME" />
         <span>
           <TbNotes />
         </span>
-      </a>
+      </button>
+      <ResumeModal isOpen={isResumeOpen} onClose={() => setIsResumeOpen(false)} />
     </div>
   );
 };
