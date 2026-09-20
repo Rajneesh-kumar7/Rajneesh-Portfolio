@@ -104,23 +104,24 @@ const Work = () => {
     },
     {
       title: "MediGo",
-      category: "Healthcare Web Application",
-      tools: "Next.js, React.js, TypeScript, Tailwind CSS",
-      image: "/images/next.webp",
+      category: "Modern Healthcare & Emergency Platform",
+      tools: "Next.js, React.js, TypeScript, Tailwind CSS, 3D Web Graphics",
+      image: "/images/medigo.png",
       link: "https://github.com/Rajneesh-kumar7/medigo",
       summary:
-        "A modern healthcare web platform engineered to simplify doctor discovery, appointment scheduling, and patient record management with an accessible, high-performance UI.",
+        "Healthcare that keeps pace with you — because every moment counts. Engineered to find verified doctors, connect with nearby hospitals, book video consultations, and trigger rapid emergency help with live responder telemetry.",
       architecture: [
-        "Next.js App Router Architecture: Server and client components split for optimal first contentful paint (FCP) and SEO performance.",
-        "Strict Type Safety: Comprehensive TypeScript interfaces ensuring bug-free data flow across consultation schedules and doctor profiles.",
-        "Modern Responsive Design: Mobile-first utility styling utilizing Tailwind CSS with high-contrast accessibility standards."
+        "Next.js App Router Architecture: Server and client components split for optimal performance, instant hydration, and 3D visual rendering.",
+        "Emergency Telemetry & Proximity Engine: Nearby hospital responder status tracking (active distance monitoring) with live network connection indicators.",
+        "Strict Type Safety & Telemedicine: End-to-end TypeScript interfaces handling verified doctor directories (12,400+ doctors), partner hospitals (300+), and video consult workflows."
       ],
       keyFeatures: [
-        "Doctor search and filtering by specialty, availability, and hospital",
-        "Streamlined multi-step patient consultation booking flow",
-        "Modular UI architecture allowing rapid feature expansion"
+        "Instant 24/7 Emergency Help & active nearby hospital responder tracking",
+        "Doctor directory & video consult booking with 12,400+ verified practitioners",
+        "Partner hospital connectivity network with live proximity status across 300+ centers",
+        "Modern glassmorphism UI featuring 3D DNA graphics and dark mode toggle"
       ],
-      tags: ["Next.js", "React.js", "TypeScript", "Tailwind CSS", "REST APIs", "Modern UI"],
+      tags: ["Next.js", "React.js", "TypeScript", "Tailwind CSS", "Emergency Dispatch", "Telemedicine", "3D Web"],
     },
   ];
 
