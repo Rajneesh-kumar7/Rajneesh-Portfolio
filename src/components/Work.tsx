@@ -83,23 +83,24 @@ const Work = () => {
     },
     {
       title: "DevConnect",
-      category: "Developer Networking Platform",
-      tools: "React.js, Node.js, Express.js, MongoDB, Reusable Components",
-      image: "/images/react.webp",
+      category: "Developer Squad & Collaboration Platform",
+      tools: "React.js, Node.js, Express.js, MongoDB, Socket.io, Tailwind CSS, AI Tools",
+      image: "/images/devconnect.png",
       link: "https://github.com/Rajneesh-kumar7",
       summary:
-        "A developer networking and collaboration hub designed to connect programmers, showcase open-source projects, and foster community discussions.",
+        "Where ambitious builders assemble squads, collaborate, and ship real projects. Built with real-time collaboration rooms, hackathon squad assembly, interactive developer workspaces, and integrated AI tools.",
       architecture: [
-        "Component-Driven Architecture: Highly reusable React modular components with Tailwind CSS for consistent styling and low bundle footprint.",
-        "State Management & API Layer: Centralized async state handling with Axios interceptors for authenticated API requests.",
-        "Secure Data Persistence: Document-oriented database schemas supporting user profiles, project posts, tech tags, and interactions."
+        "Real-Time Collaboration: Interactive rooms and live developer workspaces powered by Socket.io and Node.js.",
+        "Squad & Hackathon Assembly: Intelligent team-matching system allowing developers to assemble squads by skills, roles, and project domains.",
+        "Modular UI & State Architecture: Clean, high-performance React component hierarchy with Tailwind CSS and responsive micro-interactions."
       ],
       keyFeatures: [
-        "Developer profile creation with skills, GitHub links, and work history",
-        "Project showcase feed with engagement (likes, comments, tags)",
-        "Responsive dashboard optimized for both desktop and mobile viewports"
+        "Hackathon squad matching & team recruitment workflow",
+        "Real-time interactive collaboration rooms & workspaces",
+        "Curated AI tools directory & developer showcase feeds",
+        "Custom dark UI with 3D typography and ambient audio effects"
       ],
-      tags: ["React.js", "Node.js", "Express.js", "MongoDB", "Tailwind CSS", "JWT", "REST APIs"],
+      tags: ["React.js", "Node.js", "Express.js", "MongoDB", "Socket.io", "Tailwind CSS", "Hackathons", "AI Tools"],
     },
     {
       title: "MediGo",
