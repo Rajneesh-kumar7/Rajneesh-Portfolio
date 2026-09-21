@@ -123,6 +123,28 @@ const Work = () => {
       ],
       tags: ["Next.js", "React.js", "TypeScript", "Tailwind CSS", "Emergency Dispatch", "Telemedicine", "3D Web"],
     },
+    {
+      title: "Argus Kernel",
+      category: "AI API Firewall & LLM Security Gateway",
+      tools: "React 19, TypeScript, Node.js, Express.js, Tailwind CSS, Recharts, Mongoose, Zod",
+      image: "/images/argus.png",
+      link: "https://github.com/Rajneesh-kumar7",
+      summary:
+        "An enterprise-grade open-source AI API Firewall engineered to sit between client applications and Large Language Models (LLMs). Protects, inspects, governs, routes, and monitors every AI prompt and response with real-time prompt injection defense and automated PII redaction.",
+      architecture: [
+        "Firewall Pipeline Interceptor: Pre-flight request and response evaluation pipeline executing heuristic prompt injection checks and automated regex/entropy-based PII redaction.",
+        "Multi-Provider Routing Engine: Dynamic intelligent routing layer with automatic failover and latency/cost telemetry across OpenAI, Google Gemini, Groq, and Ollama.",
+        "Observability & Policy Engine: High-performance dashboard built with React 19 and Recharts offering deep request inspection, prompt replay sandbox, and real-time security audit trails."
+      ],
+      keyFeatures: [
+        "Real-time prompt injection & jailbreak detection heuristics",
+        "Automated PII detection & redaction (emails, SSNs, credit cards, API keys)",
+        "Multi-LLM gateway routing across OpenAI, Gemini, Groq & Ollama",
+        "Interactive Firewall Playground with prompt replay & request inspector",
+        "Live telemetry analytics tracking request latencies, token consumption & costs"
+      ],
+      tags: ["React 19", "TypeScript", "Node.js", "Express.js", "AI Firewall", "LLM Security", "Cybersecurity", "Recharts"],
+    },
   ];
 
   return (

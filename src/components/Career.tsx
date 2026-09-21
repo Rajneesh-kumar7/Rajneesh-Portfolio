@@ -50,8 +50,8 @@ const Career = () => {
             </div>
             <p>
               Architecting full-stack platforms including Fleet Flow (fleet management),
-              DevConnect (developer networking), and MediGo (healthcare web application)
-              using React.js, Node.js, Express.js, MongoDB, Next.js, TypeScript, and Tailwind CSS.
+              DevConnect (developer networking), MediGo (healthcare web application), and
+              Argus Kernel (AI API firewall & LLM governance gateway) using React.js, Node.js, Express.js, MongoDB, Next.js, TypeScript, and Tailwind CSS.
             </p>
           </div>
         </div>
