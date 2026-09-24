@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import "./styles/Work.css";
 import WorkImage from "./WorkImage";
 import ProjectModal, { ProjectDetail } from "./ProjectModal";
@@ -6,7 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { MdArrowOutward } from "react-icons/md";
-import { FiInfo, FiLayers, FiCpu, FiCheckCircle, FiGithub } from "react-icons/fi";
+import { FiInfo } from "react-icons/fi";
 
 gsap.registerPlugin(useGSAP);
 
@@ -17,150 +17,36 @@ interface ProjectCardProps {
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ proj, index, onSelect }) => {
-  const [activeTab, setActiveTab] = useState<"highlights" | "architecture" | "stack">("highlights");
-  const cardRef = useRef<HTMLDivElement>(null);
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const rotateX = ((y - centerY) / centerY) * -4;
-    const rotateY = ((x - centerX) / centerX) * 4;
-    setTilt({ x: rotateX, y: rotateY });
-  };
-
-  const handleMouseLeave = () => {
-    setTilt({ x: 0, y: 0 });
-  };
+  const browserDomain = proj.title.toLowerCase().replace(/[^a-z0-9]/g, "") + ".app";
 
   return (
-    <div
-      ref={cardRef}
-      className="work-box"
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={
-        {
-          "--card-accent": proj.accentColor,
-          "--card-glow": proj.accentGlow,
-          transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
-        } as React.CSSProperties
-      }
-    >
-      <div className="work-card-top">
-        {/* Top Header Badge Strip */}
-        <div className="work-card-badge-row">
-          <span className="work-card-index">0{index + 1}</span>
+    <div className="work-box">
+      {/* Editorial Content */}
+      <div className="work-card-content">
+        <div className="work-card-meta">
+          <span className="work-card-num">0{index + 1}</span>
+          <span className="work-card-divider">/</span>
           <span className="work-card-category">{proj.category}</span>
-          <span className="work-card-status-pulse">
-            <span
-              className="pulse-dot"
-              style={{ background: proj.accentColor, boxShadow: `0 0 8px ${proj.accentColor}` }}
-            ></span>
-            PRODUCTION
-          </span>
         </div>
 
-        {/* Project Title */}
-        <div className="work-card-title-row">
-          <h3 className="work-card-title">{proj.title}</h3>
-        </div>
+        <h3 className="work-card-title">{proj.title}</h3>
+        <p className="work-card-desc">{proj.summary}</p>
 
-        {/* Memorable Tagline */}
-        <p className="work-card-tagline">"{proj.tagline}"</p>
-
-        {/* Key Impact Metrics Strip */}
-        <div className="work-card-metrics">
-          {proj.metrics.map((m, idx) => (
-            <div className="work-metric-pill" key={idx}>
-              <span className="metric-pill-val" style={{ color: proj.accentColor }}>
-                {m.value}
-              </span>
-              <span className="metric-pill-lbl">{m.label}</span>
-            </div>
+        {/* Clean Tech Stack Pills */}
+        <div className="work-card-tags">
+          {proj.tags.slice(0, 5).map((tag, idx) => (
+            <span className="work-card-tag" key={idx}>
+              {tag}
+            </span>
           ))}
         </div>
 
-        {/* In-Card Interactive Tabs */}
-        <div className="work-card-tabs">
-          <button
-            className={`work-card-tab ${activeTab === "highlights" ? "active" : ""}`}
-            onClick={() => setActiveTab("highlights")}
-            type="button"
-          >
-            <FiCheckCircle /> Highlights
-          </button>
-          <button
-            className={`work-card-tab ${activeTab === "architecture" ? "active" : ""}`}
-            onClick={() => setActiveTab("architecture")}
-            type="button"
-          >
-            <FiLayers /> Architecture
-          </button>
-          <button
-            className={`work-card-tab ${activeTab === "stack" ? "active" : ""}`}
-            onClick={() => setActiveTab("stack")}
-            type="button"
-          >
-            <FiCpu /> Stack
-          </button>
-        </div>
-
-        {/* In-Card Tab Content Area */}
-        <div className="work-card-tab-content">
-          {activeTab === "highlights" && (
-            <ul className="work-card-list">
-              {proj.keyFeatures.slice(0, 3).map((item, idx) => (
-                <li key={idx}>
-                  <span className="bullet-dot" style={{ background: proj.accentColor }}></span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          )}
-
-          {activeTab === "architecture" && (
-            <ul className="work-card-list">
-              {proj.architecture.slice(0, 3).map((item, idx) => {
-                const parts = item.split(":");
-                return (
-                  <li key={idx}>
-                    <span className="bullet-dot" style={{ background: proj.accentColor }}></span>
-                    <span>
-                      <strong style={{ color: proj.accentColor }}>{parts[0]}:</strong>
-                      {parts.slice(1).join(":")}
-                    </span>
-                  </li>
-                );
-              })}
-            </ul>
-          )}
-
-          {activeTab === "stack" && (
-            <div className="work-card-tags">
-              {proj.tags.map((tag, idx) => (
-                <span className="work-card-tag" key={idx}>
-                  {tag}
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Action Group */}
+        {/* Minimalist Action Links */}
         <div className="work-links-group">
           <button
             onClick={() => onSelect(proj)}
             className="work-details-btn"
             aria-label={`View ${proj.title} case study`}
-            style={{
-              borderColor: `${proj.accentColor}60`,
-              boxShadow: `0 0 15px ${proj.accentGlow}`,
-            }}
           >
             <FiInfo /> Case Study
           </button>
@@ -170,20 +56,24 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ proj, index, onSelect }) => {
             rel="noopener noreferrer"
             className="work-project-link"
           >
-            <FiGithub /> GitHub <MdArrowOutward />
+            Source Code <MdArrowOutward />
           </a>
         </div>
       </div>
 
-      {/* Screenshot & Visual Media */}
-      <div className="work-image-container">
-        <div
-          className="work-image-glow"
-          style={{
-            background: `radial-gradient(circle, ${proj.accentGlow} 0%, transparent 70%)`,
-          }}
-        />
-        <WorkImage image={proj.image} alt={proj.title} link={proj.link} />
+      {/* Elegant Browser Mockup Window */}
+      <div className="work-browser-frame">
+        <div className="browser-titlebar">
+          <div className="browser-dots">
+            <span className="dot dot-red"></span>
+            <span className="dot dot-yellow"></span>
+            <span className="dot dot-green"></span>
+          </div>
+          <span className="browser-url">{browserDomain}</span>
+        </div>
+        <div className="browser-viewport">
+          <WorkImage image={proj.image} alt={proj.title} link={proj.link} />
+        </div>
       </div>
     </div>
   );
@@ -242,7 +132,7 @@ const Work = () => {
   const projects: ProjectDetail[] = [
     {
       title: "Fleet Flow",
-      category: "Fleet Management & Logistics Intelligence",
+      category: "Logistics & Fleet Management",
       accentColor: "#00f5a0",
       accentGlow: "rgba(0, 245, 160, 0.22)",
       tagline: "Unified vehicle telemetry, automated driver dispatch, and preventive maintenance intelligence.",
@@ -254,7 +144,7 @@ const Work = () => {
         { label: "Access Security", value: "JWT RBAC" },
       ],
       tools: "React.js, Node.js, Express.js, MongoDB, JWT Auth, REST APIs, Mongoose",
-      image: "/images/node.webp",
+      image: "/images/fleetflow.png",
       link: "https://github.com/Rajneesh-kumar7",
       summary:
         "A full-scale fleet tracking and logistics management web application designed to monitor vehicles, driver schedules, fuel logs, and maintenance operations in real time.",
@@ -269,7 +159,7 @@ const Work = () => {
         "Fuel efficiency analysis and preventive maintenance alerts",
         "Automated trip log generation and route analytics",
       ],
-      tags: ["React.js", "Node.js", "Express.js", "MongoDB", "JWT Auth", "RESTful APIs", "Mongoose", "Telemetry"],
+      tags: ["React.js", "Node.js", "Express.js", "MongoDB", "JWT Auth", "REST APIs", "Mongoose"],
     },
     {
       title: "DevConnect",
@@ -300,7 +190,7 @@ const Work = () => {
         "Curated AI tools directory & developer showcase feeds",
         "Custom dark UI with 3D typography and ambient audio effects",
       ],
-      tags: ["React.js", "Node.js", "Express.js", "MongoDB", "Socket.io", "Tailwind CSS", "Hackathons", "AI Tools"],
+      tags: ["React.js", "Node.js", "Express.js", "MongoDB", "Socket.io", "Tailwind CSS", "Hackathons"],
     },
     {
       title: "MediGo",
@@ -331,7 +221,7 @@ const Work = () => {
         "Partner hospital connectivity network with live proximity status across 300+ centers",
         "Modern glassmorphism UI featuring 3D DNA graphics and dark mode toggle",
       ],
-      tags: ["Next.js", "React.js", "TypeScript", "Tailwind CSS", "Emergency Dispatch", "Telemedicine", "3D Web"],
+      tags: ["Next.js", "React.js", "TypeScript", "Tailwind CSS", "Emergency Dispatch", "3D Web"],
     },
     {
       title: "Argus Kernel",
@@ -363,7 +253,7 @@ const Work = () => {
         "Interactive Firewall Playground with prompt replay & request inspector",
         "Live telemetry analytics tracking request latencies, token consumption & costs",
       ],
-      tags: ["React 19", "TypeScript", "Node.js", "Express.js", "AI Firewall", "LLM Security", "Cybersecurity", "Recharts"],
+      tags: ["React 19", "TypeScript", "Node.js", "Express.js", "AI Firewall", "Cybersecurity"],
     },
   ];
 
@@ -372,10 +262,10 @@ const Work = () => {
       <div className="work-container section-container">
         <div className="work-header-wrap">
           <h2>
-            Featured <span>Engineering Projects</span>
+            Featured <span>Projects</span>
           </h2>
           <p className="work-subtitle">
-            Production-grade full stack applications, real-time distributed systems, and AI security architectures.
+            Selected full-stack web applications, real-time distributed platforms, and security tools.
           </p>
         </div>
         <div className="work-flex">
