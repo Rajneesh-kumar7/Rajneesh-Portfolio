@@ -72,11 +72,11 @@ const Scene = () => {
           };
 
           progress.loaded().then(() => {
-            setTimeout(triggerIntro, 2500);
+            setTimeout(triggerIntro, 500);
           });
 
           // Fallback in case progress.loaded is slow or already resolved
-          setTimeout(triggerIntro, 4000);
+          setTimeout(triggerIntro, 1200);
 
           window.addEventListener("resize", () =>
             handleResize(renderer, camera, canvasDiv, character)

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import "./styles/Loading.css";
 import { useLoading } from "../context/LoadingProvider";
-
 import Marquee from "react-fast-marquee";
+import Lightning from "./Lightning";
 
 const Loading = ({ percent }: { percent: number }) => {
   const { setIsLoading } = useLoading();
@@ -10,28 +10,29 @@ const Loading = ({ percent }: { percent: number }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [clicked, setClicked] = useState(false);
 
-  if (percent >= 100) {
-    setTimeout(() => {
+  useEffect(() => {
+    if (percent >= 100 && !loaded) {
       setLoaded(true);
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         setIsLoaded(true);
-      }, 1000);
-    }, 600);
-  }
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [percent, loaded]);
 
   useEffect(() => {
-    import("./utils/initialFX").then((module) => {
-      if (isLoaded) {
-        setClicked(true);
+    if (isLoaded) {
+      setClicked(true);
+      import("./utils/initialFX").then((module) => {
         setTimeout(() => {
           if (module.initialFX) {
             module.initialFX();
           }
           setIsLoading(false);
-        }, 900);
-      }
-    });
-  }, [isLoaded]);
+        }, 350);
+      });
+    }
+  }, [isLoaded, setIsLoading]);
 
   function handleMouseMove(e: React.MouseEvent<HTMLElement>) {
     const { currentTarget: target } = e;
@@ -60,6 +61,17 @@ const Loading = ({ percent }: { percent: number }) => {
         </div>
       </div>
       <div className="loading-screen">
+        {/* Fullscreen Animated Lightning Element */}
+        <div className="loading-lightning-wrapper">
+          <Lightning
+            hue={220}
+            xOffset={0}
+            speed={1}
+            intensity={1.2}
+            size={1}
+          />
+        </div>
+
         <div className="loading-marquee">
           <Marquee>
             <span> Full-Stack Developer</span> <span>MERN Stack Engineer</span>
@@ -95,22 +107,14 @@ export default Loading;
 export const setProgress = (setLoading: (value: number) => void) => {
   let percent: number = 0;
 
+  // Fast, smooth initial ramp-up to 90%
   let interval = setInterval(() => {
-    if (percent <= 50) {
-      const rand = Math.round(Math.random() * 5);
-      percent = percent + rand;
+    if (percent < 90) {
+      const step = Math.floor(Math.random() * 6) + 4;
+      percent = Math.min(percent + step, 90);
       setLoading(percent);
-    } else {
-      clearInterval(interval);
-      interval = setInterval(() => {
-        percent = percent + Math.round(Math.random());
-        setLoading(percent);
-        if (percent > 91) {
-          clearInterval(interval);
-        }
-      }, 2000);
     }
-  }, 100);
+  }, 40);
 
   function clear() {
     clearInterval(interval);
@@ -122,14 +126,15 @@ export const setProgress = (setLoading: (value: number) => void) => {
       clearInterval(interval);
       interval = setInterval(() => {
         if (percent < 100) {
-          percent++;
-          setLoading(percent);
+          percent += 4;
+          setLoading(Math.min(percent, 100));
         } else {
           resolve(percent);
           clearInterval(interval);
         }
-      }, 2);
+      }, 10);
     });
   }
   return { loaded, percent, clear };
 };
+
