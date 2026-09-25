@@ -45,6 +45,15 @@ const Scene = () => {
 
       let headBone: THREE.Object3D | null = null;
       let screenLight: any | null = null;
+      let chestBone: THREE.Object3D | null = null;
+      let auraRing: THREE.Object3D | null = null;
+      let faceMesh: any = null;
+      let blinkTimer = 0;
+      let isBlinking = false;
+      let blinkProgress = 0;
+      const charBaseY = 8.5;
+      let isHovered = false;
+      let joyWeight = 0;
       let mixer: THREE.AnimationMixer;
 
       const clock = new THREE.Clock();
@@ -60,9 +69,21 @@ const Scene = () => {
           mixer = animations.mixer;
           const character = gltf.scene;
           setChar(character);
-          scene.add(character);
           headBone = character.getObjectByName("spine006") || null;
           screenLight = character.getObjectByName("screenlight") || null;
+          chestBone = character.getObjectByName("J_Bip_C_Chest") || null;
+          auraRing = character.getObjectByName("auraRing") || null;
+
+          character.traverse((child: any) => {
+            if (
+              child.isMesh &&
+              child.morphTargetDictionary &&
+              child.morphTargetDictionary["Fcl_EYE_Close"] !== undefined
+            ) {
+              faceMesh = child;
+            }
+          });
+
           let introStarted = false;
           const triggerIntro = () => {
             if (introStarted) return;
@@ -83,6 +104,15 @@ const Scene = () => {
           );
         }
       });
+
+      if (hoverDivRef.current) {
+        hoverDivRef.current.addEventListener("mouseenter", () => {
+          isHovered = true;
+        });
+        hoverDivRef.current.addEventListener("mouseleave", () => {
+          isHovered = false;
+        });
+      }
 
       let mouse = { x: 0, y: 0 },
         interpolation = { x: 0.1, y: 0.2 };
@@ -118,6 +148,50 @@ const Scene = () => {
       const animate = () => {
         animId = requestAnimationFrame(animate);
 
+        const time = clock.getElapsedTime();
+        const delta = Math.min(clock.getDelta(), 0.1);
+
+        if (character) {
+          character.position.y = charBaseY + Math.sin(time * 1.5) * 0.05;
+        }
+        if (chestBone) {
+          chestBone.rotation.x = Math.sin(time * 1.8) * 0.015;
+        }
+        if (auraRing) {
+          auraRing.rotation.z = time * 0.6;
+          auraRing.position.y = 0.85 + Math.sin(time * 2.0) * 0.02;
+        }
+
+        // Natural anime eye blinking
+        if (faceMesh && faceMesh.morphTargetDictionary) {
+          const eyeCloseIndex = faceMesh.morphTargetDictionary["Fcl_EYE_Close"];
+          if (eyeCloseIndex !== undefined) {
+            blinkTimer += delta;
+            if (!isBlinking && blinkTimer > 2.8 + Math.random() * 2) {
+              isBlinking = true;
+              blinkTimer = 0;
+              blinkProgress = 0;
+            }
+            if (isBlinking) {
+              blinkProgress += delta * 14;
+              const weight = Math.sin(Math.min(blinkProgress, Math.PI));
+              faceMesh.morphTargetInfluences[eyeCloseIndex] = weight;
+              if (blinkProgress >= Math.PI) {
+                isBlinking = false;
+                faceMesh.morphTargetInfluences[eyeCloseIndex] = 0;
+              }
+            }
+          }
+
+          // Subtle friendly smile on hover
+          const joyIndex = faceMesh.morphTargetDictionary["Fcl_ALL_Joy"];
+          if (joyIndex !== undefined) {
+            const targetJoy = isHovered ? 0.65 : 0;
+            joyWeight = THREE.MathUtils.lerp(joyWeight, targetJoy, 0.1);
+            faceMesh.morphTargetInfluences[joyIndex] = joyWeight;
+          }
+        }
+
         if (headBone) {
           handleHeadRotation(
             headBone,
@@ -129,7 +203,6 @@ const Scene = () => {
           );
           light.setPointLight(screenLight);
         }
-        const delta = Math.min(clock.getDelta(), 0.1);
         if (mixer) {
           mixer.update(delta);
         }
